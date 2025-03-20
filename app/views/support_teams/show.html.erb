@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @support_team %>
+
+<div>
+  <%= link_to "Edit this support team", edit_support_team_path(@support_team) %> |
+  <%= link_to "Back to support teams", support_teams_path %>
+
+  <%= button_to "Destroy this support team", @support_team, method: :delete %>
+</div>

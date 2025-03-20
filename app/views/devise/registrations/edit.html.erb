@@ -1,0 +1,183 @@
+<style>
+  /* Background Styling */
+  body {
+     background: url('https://gst-contracts.s3.ap-southeast-1.amazonaws.com/uploads/bcc/cms/asset/avatar/324800/banner6.jpg') no-repeat center center fixed;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-attachment: fixed;
+  background-size: cover;
+  }
+     
+
+  /* Form Container */
+  .edit-account-container {
+   background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+    margin-left:990px;
+  }
+
+  /* Title */
+  .edit-account-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  /* Input Field Styling */
+  .field {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+
+  /* Input Wrapper with Icons */
+  .input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background: #f9f9f9;
+  }
+
+  .input-wrapper i {
+    color: #4A90E2;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+
+  .input-field {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+    background: transparent;
+  }
+
+  /* Submit Button */
+  .submit-btn {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    width: 100%;
+  }
+
+  .submit-btn:hover {
+    background-color: #357ABD;
+  }
+
+  /* Cancel Account Button */
+  .cancel-btn {
+    background-color: #d9534f;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+
+  .cancel-btn:hover {
+    background-color: #c9302c;
+  }
+
+  /* Back Button */
+  .back-btn {
+    display: block;
+    margin-top: 15px;
+    color: #4A90E2;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .back-btn:hover {
+    text-decoration: underline;
+  }
+
+  /* Confirmation Message */
+  .confirmation-message {
+    background-color: #ffeb3b;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+  }
+</style>
+
+<div class="edit-account-container">
+  <h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "edit-account-form" }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="field">
+      <label for="email" class="label">Email</label>
+      <div class="input-wrapper">
+        <i class="fas fa-envelope"></i> 
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input-field" %>
+      </div>
+    </div>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div class="confirmation-message">
+        Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <label>Password <i>(leave blank if you don't want to change it)</i></label>
+      <div class="input-wrapper">
+        <i class="fas fa-lock"></i>
+        <%= f.password_field :password, autocomplete: "new-password", class: "input-field" %>
+      </div>
+      <% if @minimum_password_length %>
+        <em><%= @minimum_password_length %> characters minimum</em>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <label>Password Confirmation</label>
+      <div class="input-wrapper">
+        <i class="fas fa-lock"></i>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input-field" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Current Password <i>(we need your current password to confirm your changes)</i></label>
+      <div class="input-wrapper">
+        <i class="fas fa-key"></i>
+        <%= f.password_field :current_password, autocomplete: "current-password", class: "input-field" %>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Update", class: "submit-btn" %>
+    </div>
+  <% end %>
+
+  <h3>Cancel My Account</h3>
+  <div class="cancel-account">
+    <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "cancel-btn" %>
+  </div>
+
+  <div class="back-link">
+    <%= link_to "Back", :back, class: "back-btn" %>
+  </div>
+</div>

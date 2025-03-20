@@ -1,0 +1,495 @@
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ToyBoxTreasure</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <style>
+    
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    /* Navbar Styling */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2c3e50; /* Dark Blue */
+      padding: 15px 30px;
+      height: 100px;
+      width: 100%;
+      position: fixed;  /* Fixed at the top */
+      top: 0;
+      left: 0;
+      z-index: 1000; /* Ensures it's above all other content */
+      margin-left:80px
+    }
+    
+    /* Push page content down so it's not hidden under navbar */
+    body {
+      padding-top: 100px; /* Equal to navbar height */
+    }
+    
+    /* Logo Styling */
+    .logo img {
+      height: 60px;
+      width: auto;
+      border-radius: 5px; /* Slightly rounded edges */
+    }
+    
+    /* Search Bar */
+    .templatemo_right_section_content {
+      display: flex;
+      align-items: center;
+      background: white;
+      padding: 8px 15px;
+      border-radius: 25px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-right:80px
+
+    }
+    
+    .templatemo_right_section_content input[type="text"] {
+      border: none;
+      padding: 8px;
+      font-size: 16px;
+      outline: none;
+      width: 250px;
+    }
+    
+    .templatemo_right_section_content input[type="submit"] {
+      background: #f39c12;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    
+    .templatemo_right_section_content input[type="submit"]:hover {
+      background: #e67e22;
+    }
+    
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <!-- Logo -->
+      <div class="logo">
+        <a href="/">
+          <img src="https://i.tracxn.com/logo/company/719cfba8e79beb812c041876b136f0" alt="Bitla Logo">
+        </a>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="templatemo_right_section_content">
+        <%= form_with url: "/gallery/search", method: :get do |form| %>
+          <%= form.text_field :keyword, placeholder: "Search here..." %>
+          <%= form.submit "Search" %>
+        <% end %>
+      </div>
+    </header>
+
+    <main>
+      <!-- Page Content -->
+    </main>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Panel</title>
+
+  <!-- FontAwesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      transition: all 0.3s ease-in-out;
+    }
+
+    /* Light & Dark Mode Styles */
+    body {
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+
+    body.dark-mode {
+      background-color: #1e1e1e;
+      color: white;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: #343a40;
+      position: fixed;
+      left: -250px; /* Initially hidden */
+      top: 0;
+      padding: 20px;
+      color: white;
+      transition: left 0.3s ease-in-out;
+      margin-top: 90px;
+    }
+
+    .sidebar.show {
+      left: 0;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar ul li a i {
+      margin-right: 10px;
+    }
+
+    .sidebar ul li:hover {
+      background: #495057;
+      border-radius: 5px;
+    }
+
+    /* Content Area */
+    .content {
+      margin-left: 20px;
+      padding: 20px;
+      transition: margin-left 0.3s ease-in-out;
+    }
+
+    .sidebar.show + .content {
+      margin-left: 260px;
+    }
+
+    /* Sidebar Toggle Button */
+    .sidebar-toggle {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      background: black;
+      border: none;
+      color: yellow;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+
+    /* Dark Mode Toggle Button */
+    .dark-mode-toggle {
+      font-size: 16px;
+      padding: 8px 12px;
+      background: #f39c12;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .dark-mode-toggle:hover {
+      background: #e67e22;
+    }
+
+    .dark-mode .dark-mode-toggle {
+      background: #555;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #343a40;
+      padding: 15px 20px;
+      color: white;
+    }
+
+    .navbar .logo img {
+      height: 40px;
+    }
+
+    .navbar .right-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .navbar .right-section a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .navbar .right-section a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="http://localhost:3000/buses"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+      <li><a href="http://localhost:3000/map/index"><i class="fas fa-map"></i>Ai Map</a></li>
+      <li><a href="http://localhost:3000/buses/new"><i class="fas fa-bus"></i> Add Bus</a></li>
+      <li><a href="http://127.0.0.1:3000/admin/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="http://localhost:3000/"><i class="fas fa-sign-out-alt"></i> Landing Page</a></li>
+      <li><button class="dark-mode-toggle" onclick="toggleDarkMode()">Dark Mode</button></li>
+    </ul>
+  </div>
+
+  <!-- Sidebar Toggle Button -->
+  <button class="sidebar-toggle" id="sidebarToggle">
+    ☰
+  </button>
+
+ 
+  <script>
+    // Sidebar Toggle Function
+    function toggleSidebar() {
+      let sidebar = document.getElementById('sidebar');
+      let content = document.getElementById('content');
+      let toggleBtn = document.getElementById('sidebarToggle');
+
+      if (sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+        toggleBtn.innerHTML = "☰"; // Show hamburger icon
+      } else {
+        sidebar.classList.add('show');
+        toggleBtn.innerHTML = "✖"; // Show close icon
+      }
+    }
+
+    document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
+
+    // Dark Mode Toggle Function
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      let btn = document.querySelector('.dark-mode-toggle');
+      btn.textContent = document.body.classList.contains('dark-mode') ? "Light Mode" : "Dark Mode";
+    }
+  </script>
+
+</body>
+</html>
+
+
+<h1 style="text-align: center; color: #2c3e50;">Bus List</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Source</th>
+      <th>Destination</th>
+      <th>Seats</th>
+      <th>Seat Type</th>
+      <th>Bus Type</th>
+      <th>Ticket Price</th>
+      <th>Departure</th>
+      <th>Arrival</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @buses.each do |bus| %>
+      <tr>
+        <td><%= bus.id %></td>
+        <td><%= bus.name %></td>
+        <td><%= bus.source %></td>
+        <td><%= bus.destination %></td>
+        <td><%= bus.seats %></td>
+        <td><%= bus.seat_type %></td>
+        <td><%= bus.bus_type %></td>
+        <td>₹<%= bus.ticket_amount %></td>
+        <td><%= bus.departure_time.strftime("%d-%m-%Y %I:%M %p") if bus.departure_time %></td>
+        <td><%= bus.arrival_time.strftime("%d-%m-%Y %I:%M %p") if bus.arrival_time %></td>
+        <td>
+          <% if bus.image.attached? %>
+            <img src="<%= url_for(bus.image) %>" alt="Bus Image" width="80" height="50">
+          <% else %>
+            No Image
+          <% end %>
+        </td>
+        <td>
+          <%= link_to "Show", bus, class: "btn-show" %> |
+          <%= link_to "Edit", edit_bus_path(bus), class: "btn-edit" %> |
+          <%= link_to "Delete", bus, method: :delete, data: { confirm: "Are you sure?" }, class: "btn-delete" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div style="text-align: center; margin-top: 20px;">
+  <%= link_to "Add New Bus", new_bus_path, class: "btn-add" %>
+</div>
+
+<style>
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Table Header Styling */
+th {
+  background: #2c3e50; /* Dark Blue */
+  color: white;
+  padding: 12px;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/* Alternate Row Colors */
+tr:nth-child(even) {
+  background: #f2f2f2; /* Light Gray */
+}
+
+tr:nth-child(odd) {
+  background: #ffffff; /* White */
+}
+
+/* Table Cell Styling */
+td {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+  color:blue;
+}
+
+/* Bus Image Styling */
+td img {
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Action Buttons */
+.btn-show {
+  background: #3498db; /* Blue */
+  color: white;
+  padding: 6px 12px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.btn-edit {
+  background: #f39c12; /* Orange */
+  color: white;
+  padding: 6px 12px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.btn-delete {
+  background: #e74c3c; /* Red */
+  color: white;
+  padding: 6px 12px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.btn-show:hover,
+.btn-edit:hover,
+.btn-delete:hover {
+  opacity: 0.8;
+}
+
+/* Add Bus Button */
+.btn-add {
+  background: #2ecc71; /* Green */
+  color: white;
+  padding: 12px 20px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.btn-add:hover {
+  background: #27ae60; /* Darker Green */
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  table {
+    font-size: 12px;
+  }
+  
+  th, td {
+    padding: 8px;
+  }
+  
+  .btn-show, .btn-edit, .btn-delete {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+</style>

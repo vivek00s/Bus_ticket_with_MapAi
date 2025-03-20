@@ -1,0 +1,119 @@
+<style>
+  /* Background with Linear Gradient */
+ 
+
+    body {
+     background: url('https://gst-contracts.s3.ap-southeast-1.amazonaws.com/uploads/bcc/cms/asset/avatar/324800/banner6.jpg') no-repeat center center fixed;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-attachment: fixed;
+  background-size: cover;
+  }
+
+  /* Form Container */
+  .confirmation-container {
+   background: linear-gradient(to right, #ff7e5f, #feb47b, #86a8e7, #7f7fd5);
+
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+    margin-left:980px;
+  }
+
+  /* Title */
+  .confirmation-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  /* Input Field Styling */
+  .field {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+
+  /* Input Wrapper with Icon */
+  .input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background: #f9f9f9;
+  }
+
+  .input-wrapper i {
+    color: #4facfe;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+
+  .input-field {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+    background: transparent;
+  }
+
+  /* Submit Button */
+  .submit-btn {
+    background-color: #4facfe;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    width: 100%;
+  }
+
+  .submit-btn:hover {
+    background-color: #3a94f0;
+  }
+
+  /* Back Link */
+  .back-btn {
+    display: block;
+    margin-top: 15px;
+    color: #4facfe;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .back-btn:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="confirmation-container">
+  <h2>Resend Confirmation Instructions</h2>
+
+  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: "confirmation-form" }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="field">
+      <label>Email</label>
+      <div class="input-wrapper">
+        <i class="fas fa-envelope"></i>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: "input-field" %>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Resend Confirmation Instructions", class: "submit-btn" %>
+    </div>
+  <% end %>
+
+  <div class="back-link">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

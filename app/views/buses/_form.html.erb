@@ -1,0 +1,65 @@
+<%= form_with(model: bus) do |form| %>
+  <% if bus.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(bus.errors.count, "error") %> prohibited this bus from being saved:</h2>
+
+      <ul>
+        <% bus.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :source, style: "display: block" %>
+    <%= form.text_field :source %>
+  </div>
+
+  <div>
+    <%= form.label :destination, style: "display: block" %>
+    <%= form.text_field :destination %>
+  </div>
+
+  <div>
+    <%= form.label :seats, style: "display: block" %>
+    <%= form.number_field :seats %>
+  </div>
+
+  <div>
+    <%= form.label :seat_type, style: "display: block" %>
+    <%= form.text_field :seat_type %>
+  </div>
+
+  <div>
+    <%= form.label :bus_type, style: "display: block" %>
+    <%= form.text_field :bus_type %>
+  </div>
+
+  <div>
+    <%= form.label :ticket_amount, style: "display: block" %>
+    <%= form.text_field :ticket_amount %>
+  </div>
+
+  <div>
+    <%= form.label :departure_time, style: "display: block" %>
+    <%= form.datetime_field :departure_time %>
+  </div>
+
+  <div>
+    <%= form.label :arrival_time, style: "display: block" %>
+    <%= form.datetime_field :arrival_time %>
+  </div>
+
+    <%= form.label :image %>
+  <%= form.file_field :image %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,21 @@
+<button><a href="http://127.0.0.1:3000/gallery/index" style=" font-size:30px; padding:20px; margin-left:30px;">Gallery/index</a><button>
+<button><a href="http://127.0.0.1:3000/phones/new" style=" font-size:30px; padding:20px; margin-left:30px;"> Add new Phone</a></button>
+
+<% @phones.each do |phone| %>
+  <div >
+    <h3><%= phone.name %></h3>
+    <p>Price: $<%= phone.price %></p>
+
+    <% if phone.image.attached? %>
+      <%= image_tag phone.image, width: 150 %>
+    <% end %>
+
+    <%= link_to 'Show', phone %>
+    <%= link_to 'Edit', edit_phone_path(phone) %>
+    <%= link_to 'Delete', phone, method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+<% end %>
+
+
+
+

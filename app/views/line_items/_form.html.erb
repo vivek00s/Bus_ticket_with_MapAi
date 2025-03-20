@@ -1,0 +1,32 @@
+<%= form_with(model: line_item, local: true) do |form| %>
+  <% if line_item.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(line_item.errors.count, "error") %> prohibited this Line Item from being saved:</h2>
+      <ul>
+        <% line_item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :cart_id, "Cart ID", style: "display: block" %>
+    <%= form.number_field :cart_id %>
+  </div>
+
+  <div>
+    <%= form.label :bus_id, "Bus ID", style: "display: block" %>
+    <%= form.number_field :bus_id %>
+  </div>
+
+  <div>
+    <%= form.label :quantity, "Quantity", style: "display: block" %>
+    <%= form.number_field :quantity, min: 1 %>
+  </div>
+
+  <div>
+    <%= form.submit "Add to Cart", class: "btn btn-primary" %>
+  </div>
+<% end %>
+

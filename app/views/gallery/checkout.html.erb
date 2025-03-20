@@ -1,0 +1,99 @@
+<%= flash[:notice] %>
+<br />
+<h3>Total Amount to be paid: <%= number_to_currency(session[:amount]) %></h3>
+
+<style>
+  form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .field {
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .actions {
+    text-align: center;
+  }
+
+  input[type="submit"] {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  input[type="submit"]:hover {
+    background: #218838;
+  }
+</style>
+
+<%= form_with url: "/gallery/checkout", method: :post do |f| %>
+  <div class="field">
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :credit_card_no, "Credit Card Number" %>
+    <%= f.text_field :credit_no %>
+  </div>
+
+  <div class="field">
+    <%= f.label :date_of_expiry, "Expiry Date" %>
+    <select name="check[month]" id="check_out_month">
+      <option selected value="01">January</option>
+      <option value="02">February</option>
+      <option value="03">March</option>
+      <option value="04">April</option>
+      <option value="05">May</option>
+      <option value="06">June</option>
+      <option value="07">July</option>
+      <option value="08">August</option>
+      <option value="09">September</option>
+      <option value="10">October</option>
+      <option value="11">November</option>
+      <option value="12">December</option>
+    </select>
+    
+    <select name="check[year]" id="check_out_year">
+      <% (2025..2033).each do |year| %>
+        <option value="<%= year %>"><%= year %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <div class="field">
+    <%= f.label :verification_number, "CVV" %>
+    <%= f.text_field :verification_number %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Submit" %>
+  </div>
+<% end %>

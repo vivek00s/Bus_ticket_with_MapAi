@@ -1,0 +1,2 @@
+class SupportTeam < ApplicationRecord
+end

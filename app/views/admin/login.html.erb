@@ -1,0 +1,104 @@
+
+
+
+<div class="form_container">
+  <h1>Admin Login</h1>
+
+  <!-- Admin Image -->
+  <div class="admin_image">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMAF_Vcb9CG1RlHbsQGwXMe-5Udjn9opDPZ-msBJO0_n5u-0gsRGxe3iM&s" alt="Admin">
+  </div>
+
+  <%= form_with url: "/admin/login", method: :post, local: true do |form| %>
+    
+    <div class="field">
+      <label for="username"><i class="fas fa-user"></i> Username</label>
+      <%= form.text_field :username, required: true, placeholder: "Enter Username" %>
+    </div>
+
+    <div class="field">
+      <label for="password"><i class="fas fa-lock"></i> Password</label>
+      <%= form.password_field :password, required: true, placeholder: "Enter Password" %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Login", class: "btn btn-primary" %>
+    </div>
+
+  <% end %>
+</div>
+
+<style>
+  /* Background Image */
+  body {
+    background: url('https://gst-contracts.s3.ap-southeast-1.amazonaws.com/uploads/bcc/cms/asset/avatar/324800/banner6.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Form Container */
+  .form_container {
+    width: 350px;
+    margin: 100px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+
+  /* Admin Image */
+  .admin_image img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  /* Fields */
+  .field {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+
+  .field label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  /* Icons */
+  .field label i {
+    margin-right: 5px;
+    color: #007bff;
+  }
+
+  /* Submit Button */
+  .btn-primary {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: #0056b3;
+  }
+</style>
+
+<!-- FontAwesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+

@@ -1,0 +1,26 @@
+<a href="http://127.0.0.1:3000/gallery/index">Gallery/index</a>
+
+<p>
+  <strong>Name:</strong>
+  <%= @phone.name %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  $<%= @phone.price %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @phone.description %>
+</p>
+
+<% if @phone.image.attached? %>
+  <p>
+    <strong>Image:</strong><br>
+    <%= image_tag @phone.image, width: 300 %>
+  </p>
+<% end %>
+
+<%= link_to 'Edit', edit_phone_path(@phone) %> |
+<%= link_to 'Back', phones_path %>

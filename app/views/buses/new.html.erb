@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ToyBoxTreasure</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <style>
+    
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    /* Navbar Styling */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #2c3e50; /* Dark Blue */
+      padding: 15px 30px;
+      height: 100px;
+      width: 100%;
+      position: fixed;  /* Fixed at the top */
+      top: 0;
+      left: 0;
+      z-index: 1000; /* Ensures it's above all other content */
+      margin-left:80px
+    }
+    
+    /* Push page content down so it's not hidden under navbar */
+    body {
+      padding-top: 100px; /* Equal to navbar height */
+    }
+    
+    /* Logo Styling */
+    .logo img {
+      height: 60px;
+      width: auto;
+      border-radius: 5px; /* Slightly rounded edges */
+    }
+    
+    /* Search Bar */
+    .templatemo_right_section_content {
+      display: flex;
+      align-items: center;
+      background: white;
+      padding: 8px 15px;
+      border-radius: 25px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-right:80px
+
+    }
+    
+    .templatemo_right_section_content input[type="text"] {
+      border: none;
+      padding: 8px;
+      font-size: 16px;
+      outline: none;
+      width: 250px;
+    }
+    
+    .templatemo_right_section_content input[type="submit"] {
+      background: #f39c12;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 16px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    
+    .templatemo_right_section_content input[type="submit"]:hover {
+      background: #e67e22;
+    }
+    
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <!-- Logo -->
+      <div class="logo">
+        <a href="/">
+          <img src="https://i.tracxn.com/logo/company/719cfba8e79beb812c041876b136f0" alt="Bitla Logo">
+        </a>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="templatemo_right_section_content">
+        <%= form_with url: "/gallery/search", method: :get do |form| %>
+          <%= form.text_field :keyword, placeholder: "Search here..." %>
+          <%= form.submit "Search" %>
+        <% end %>
+      </div>
+    </header>
+
+    <main>
+      <!-- Page Content -->
+    </main>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Panel</title>
+
+  <!-- FontAwesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      transition: all 0.3s ease-in-out;
+    }
+
+    /* Light & Dark Mode Styles */
+    body {
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+
+    body.dark-mode {
+      background-color: #1e1e1e;
+      color: white;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: #343a40;
+      position: fixed;
+      left: -250px; /* Initially hidden */
+      top: 0;
+      padding: 20px;
+      color: white;
+      transition: left 0.3s ease-in-out;
+      margin-top: 90px;
+    }
+
+    .sidebar.show {
+      left: 0;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar ul li a i {
+      margin-right: 10px;
+    }
+
+    .sidebar ul li:hover {
+      background: #495057;
+      border-radius: 5px;
+    }
+
+    /* Content Area */
+    .content {
+      margin-left: 20px;
+      padding: 20px;
+      transition: margin-left 0.3s ease-in-out;
+    }
+
+    .sidebar.show + .content {
+      margin-left: 260px;
+    }
+
+    /* Sidebar Toggle Button */
+    .sidebar-toggle {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      background: black;
+      border: none;
+      color: yellow;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+
+    /* Dark Mode Toggle Button */
+    .dark-mode-toggle {
+      font-size: 16px;
+      padding: 8px 12px;
+      background: #f39c12;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .dark-mode-toggle:hover {
+      background: #e67e22;
+    }
+
+    .dark-mode .dark-mode-toggle {
+      background: #555;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #343a40;
+      padding: 15px 20px;
+      color: white;
+    }
+
+    .navbar .logo img {
+      height: 40px;
+    }
+
+    .navbar .right-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .navbar .right-section a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .navbar .right-section a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="http://localhost:3000/buses"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+      <li><a href="http://localhost:3000/map/index"><i class="fas fa-map"></i>Ai Map</a></li>
+      <li><a href="http://localhost:3000/buses/new"><i class="fas fa-bus"></i> Add Bus</a></li>
+      <li><a href="http://127.0.0.1:3000/admin/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="http://localhost:3000/"><i class="fas fa-sign-out-alt"></i> Landing Page</a></li>
+      <li><button class="dark-mode-toggle" onclick="toggleDarkMode()">Dark Mode</button></li>
+    </ul>
+  </div>
+
+  <!-- Sidebar Toggle Button -->
+  <button class="sidebar-toggle" id="sidebarToggle">
+    ☰
+  </button>
+
+ 
+  <script>
+    // Sidebar Toggle Function
+    function toggleSidebar() {
+      let sidebar = document.getElementById('sidebar');
+      let content = document.getElementById('content');
+      let toggleBtn = document.getElementById('sidebarToggle');
+
+      if (sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+        toggleBtn.innerHTML = "☰"; // Show hamburger icon
+      } else {
+        sidebar.classList.add('show');
+        toggleBtn.innerHTML = "✖"; // Show close icon
+      }
+    }
+
+    document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
+
+    // Dark Mode Toggle Function
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      let btn = document.querySelector('.dark-mode-toggle');
+      btn.textContent = document.body.classList.contains('dark-mode') ? "Light Mode" : "Dark Mode";
+    }
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+<div class="main-content">
+    <div class="bus-container">
+      <h1 style="color:red">New Bus</h1>
+      <%= render "form", bus: @bus %>
+      <br>
+      <div>
+        <%= link_to "Back to Buses", buses_path, class: "back-link" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Background Image */
+body {
+  background: url('data:image/jpeg;base64,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') no-repeat center center/cover;
+  background-attachment: fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+/* Ensure the whole content is positioned correctly */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Navbar should stay at the top */
+.navbar {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 15px 20px;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Page content (ensuring the form is centered without affecting navbar) */
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding-top: 120px; /* Ensures navbar does not overlap */
+}
+
+/* Bus Form Container */
+.bus-container {
+  background: rgba(255, 255, 255, 0.15); /* Glassmorphism effect */
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 50%;
+  max-width: 600px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Heading */
+.bus-container h1 {
+  color: white;
+  font-size: 28px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Back Link Styling */
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  text-decoration: none;
+  color: white;
+  background: #e74c3c;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.back-link:hover {
+  background: #c0392b;
+  transform: scale(1.05);
+}
+
+/* Form Elements */
+.bus-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Label and Input in the same line */
+.form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 5px 0;
+}
+
+/* Label */
+.form-group label {
+  width: 30%;
+  font-size: 16px;
+  color: black;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Input Fields */
+.bus-container input,
+.bus-container select,
+.bus-container textarea {
+  width: 65%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+
+}
+
+/* Button Styling */
+.bus-container button {
+  width: 100%;
+  padding: 10px;
+  background: #2ecc71;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.bus-container button:hover {
+  background: #27ae60;
+  transform: scale(1.05);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .bus-container {
+    width: 80%;
+  }
+
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .bus-container input,
+  .bus-container select,
+  .bus-container textarea {
+    width: 100%;
+  }
+}
+</style>

@@ -1,0 +1,125 @@
+<% unless cart.line_items.empty? %>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .cart-container {
+      width: 80vw;
+      margin: 20px auto;
+      background: linear-gradient(135deg, blue
+      , white);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart_title {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #3498db;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .total_cell {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #d35400;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .custom-button, .custom-button1 {
+      display: inline-block;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease-in-out;
+      text-decoration: none;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .custom-button {
+      background-color: #3498db;
+      margin-right: 15px;
+    }
+
+    .custom-button1 {
+      background-color: #2ecc71;
+    }
+
+    .custom-button:hover {
+      background-color: #2980b9;
+    }
+
+    .custom-button1:hover {
+      background-color: #27ae60;
+    }
+
+    .empty-cart {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+
+  <div class="cart-container">
+    <div class="cart_title">Your Cart</div>
+    <table border="0">
+      <%= render(cart.line_items) %>
+      <tr>
+        <td colspan="3"><strong>Total</strong></td> 
+        <td class="total_cell"><%= number_to_currency(cart.total_price) %></td>
+      </tr>
+    </table>
+    
+    <% session[:amount] = cart.total_price %>
+    <div class="button-container">
+      <%= button_to 'Empty Cart', cart, method: :delete, data: { confirm: 'Are you sure?' }, class: "custom-button" %>
+      <%= link_to "Continue Shopping", { controller: "gallery", action: "index" }, class: "custom-button" %>
+    </div>
+    
+    <% if user_signed_in? %>
+      <div class="button-container">
+        <%= link_to "Checkout", gallery_checkout_path, class: "custom-button1" %>
+      </div>
+    <% else %>
+      <div class="button-container">
+        <%= link_to "Checkout", new_user_session_path, class: "custom-button1" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
