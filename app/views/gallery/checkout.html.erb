@@ -1,15 +1,31 @@
 <%= flash[:notice] %>
-<br />
-<h3>Total Amount to be paid: <%= number_to_currency(session[:amount]) %></h3>
+
 
 <style>
+
+body {
+  font-family: 'Arial', sans-serif;
+  
+   background: url('https://media.gettyimages.com/id/157526603/photo/white-bus-crossing-the-alpes.jpg?s=1024x1024&w=gi&k=20&c=cvb_5JhqOiVcOrde8rxvgD6DyPUeuTb80NFdHqcORyc=') no-repeat center center/cover;
+   
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
   form {
-    max-width: 400px;
+  width: 600px;
     margin: auto;
     padding: 20px;
-    background: #f9f9f9;
+    background: linear-gradient( blue, #eaeaea);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-left:700px;
+    
   }
 
   .field {
@@ -48,7 +64,11 @@
   }
 </style>
 
+
 <%= form_with url: "/gallery/checkout", method: :post do |f| %>
+  <h1 style="text-align:center; color:yellow;">Payment </h1>
+  <h3 style="color:white; text-align:center"">Total Amount to be paid: <%= number_to_currency(session[:amount]) %></h3>
+
   <div class="field">
     <%= f.label :first_name %>
     <%= f.text_field :first_name %>

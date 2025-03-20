@@ -592,6 +592,7 @@
             <th>Ticket Price</th>
             <th>Departure</th>
             <th>Arrival</th>
+            <th>Time Venue</th>
             <th>Actions</th>
         </tr>
         
@@ -609,8 +610,18 @@
             <td><%= bus.seat_type.capitalize %></td>
             <td><%= bus.bus_type.capitalize %></td>
             <td><strong><%= number_to_currency(bus.ticket_amount, unit: "₹") %></strong></td>
-            <td><%= bus.departure_time.present? ? bus.departure_time.strftime("%d %b %Y, %I:%M %p") : "Not available" %></td>
-            <td><%= bus.arrival_time.present? ? bus.arrival_time.strftime("%d %b %Y, %I:%M %p") : "Not available" %></td>
+            <td><%= bus.departure_time.present? ? bus.departure_time.strftime("%I:%M %p") : "Not available" %></td>
+<td><%= bus.arrival_time.present? ? bus.arrival_time.strftime("%I:%M %p") : "Not available" %></td>
+
+            <td>s
+  <% if bus.departure_time.present? && bus.arrival_time.present? %>
+    <%= distance_of_time_in_words(bus.departure_time, bus.arrival_time) %>
+  <% else %>
+    Not available
+  <% end %>
+</td>
+
+
             <td>
                 <div class="btn-container">
                     <%= button_to 'Buy Ticket', line_items_path(bus_id: bus.id), method: :post, class: "btn-action", id: "buy-ticket-btn" %>
