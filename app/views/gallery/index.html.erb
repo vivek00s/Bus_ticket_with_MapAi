@@ -420,7 +420,7 @@
     
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="https://gst-contracts.s3.ap-southeast-1.amazonaws.com/uploads/bcc/cms/asset/avatar/324800/banner6.jpg" alt="Luxury Bus">
+            <img src='/assets/bus.webp' alt="Luxury Bus">
             <div class="carousel-caption">
                 <h3 class="animated-text" style="color:white">Luxury Travel</h3>
                 <p>Experience comfort like never before with our premium buses, designed to provide a luxurious and smooth journey. Our buses are equipped with spacious reclining seats, ample legroom, and modern amenities such as Wi-Fi, charging ports, and entertainment screens to ensure a pleasant ride. Enjoy a peaceful atmosphere with air-conditioning and soft lighting that enhances your travel experience.</p>
@@ -613,7 +613,7 @@
             <td><%= bus.departure_time.present? ? bus.departure_time.strftime("%I:%M %p") : "Not available" %></td>
 <td><%= bus.arrival_time.present? ? bus.arrival_time.strftime("%I:%M %p") : "Not available" %></td>
 
-            <td>s
+            <td>
   <% if bus.departure_time.present? && bus.arrival_time.present? %>
     <%= distance_of_time_in_words(bus.departure_time, bus.arrival_time) %>
   <% else %>
@@ -676,6 +676,8 @@
 <div class="running-bus-container">
     <img src="https://fleetpin.co.nz/wp-content/uploads/2022/09/AdobeStock_519454361_AdobeExpress.gif" alt="Running Bus">
 </div>
+
+
 
 
 <style>

@@ -31,6 +31,8 @@ class BusesController < ApplicationController
       if @bus.save
 
         BusMailer.bus_creation_email(@bus).deliver_now
+
+        
         format.html { redirect_to @bus, notice: "Bus was successfully created." }
         format.json { render :show, status: :created, location: @bus }
       else

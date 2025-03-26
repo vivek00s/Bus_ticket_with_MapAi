@@ -36,4 +36,14 @@ Rails.application.routes.draw do
 
   get 'buses/map', to: 'buses#map', as: 'bus_map'
 
+
+
+
+  resources :line_items, only: [:create, :destroy] do
+    member do
+      patch :increase_quantity
+      patch :decrease_quantity
+    end
+  end
+
 end 

@@ -9,239 +9,118 @@
       <% end %>
 
       <% count += 1 %>
-      <td>
+
+      <% time_difference = distance_of_time_in_words(bus.departure_time, bus.arrival_time) %>
+
+      <td class="bus-card">
         <% if bus.image.attached? %>
-          <%= image_tag bus.image, height: "100", width: "100", alt: "Bus Image" %><br />
+          <%= image_tag bus.image, class: "bus-image", alt: "Bus Image" %><br />
         <% end %>
-<strong>name:</strong> <%= bus.name %><br />
-<strong>Source:</strong> <%= bus.source %><br />
-        <strong>Destination:</strong> <%= bus.destination %><br />
-        <strong>Price:</strong> <%= number_to_currency(bus.ticket_amount) %><br />
 
+        <h3><%= bus.name %></h3>
+        <p class="info"><strong>Source:</strong> <%= bus.source %></p>
+        <p class="info"><strong>Destination:</strong> <%= bus.destination %></p>
+        <p class="time"><strong>Departure:</strong> <%= bus.departure_time.strftime("%I:%M %p") %></p>
+        <p class="time"><strong>Arrival:</strong> <%= bus.arrival_time.strftime("%I:%M %p") %></p>
+        <p class="duration"><strong>Duration:</strong> <%= time_difference %></p>
+        <p class="price"><strong>Price:</strong> <%= number_to_currency(bus.ticket_amount, unit: "₹", precision: 2) %></p>
 
-        <%= bus.name %><br />
-        <strong>Price:</strong> <%= number_to_currency(bus.ticket_amount) %><br />
-
-        <%= button_to 'Add to Cart', line_items_path(bus_id: bus.id), method: :post %>
+        <%= button_to 'Book the Ticket', line_items_path(bus_id: bus.id), method: :post, class: "book-btn" %>
       </td>
     <% end %>
   </tr>
 </table>
 
-
-
-<!-- Footer Section -->
-<footer class="footer">
-    <div class="footer-container">
-        <div class="footer-section">
-            <h3>About Us</h3>
-            <p>YourStore is the best place to buy smartphones online. We offer the latest models at great prices.</p>
-        </div>
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-        <div class="footer-section">
-            <h3>Customer Support</h3>
-            <ul>
-                <li><a href="#">FAQs</a></li>
-                <li><a href="#">Shipping & Returns</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms & Conditions</a></li>
-            </ul>
-        </div>
-        <div class="footer-section">
-            <h3>Follow Us</h3>
-            <div class="social-icons">
-                <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
-                <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Twitter"></a>
-                <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
-                <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="LinkedIn"></a>
-            </div>
-        </div>
-    </div>
-
-    
-    <div class="footer-bottom">
-        <p>&copy; 2025 YourStore. All rights reserved.</p>
-    </div>
-</footer>
-
-<!-- CSS for Footer -->
 <style>
-    .footer {
-        background: #333;
-        color: white;
-        padding: 40px 20px;
-        text-align: center;
-    }
-    .footer-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        max-width: 1200px;
-        margin: auto;
-    }
-    .footer-section {
-        flex: 1;
-        min-width: 250px;
-        margin: 10px 0;
-    }
-    .footer-section h3 {
-        font-size: 18px;
-        margin-bottom: 10px;
-    }
-    .footer-section p,
-    .footer-section ul {
-        font-size: 14px;
-        list-style: none;
-        padding: 0;
-    }
-    .footer-section ul li {
-        margin: 5px 0;
-    }
-    .footer-section ul li a {
-        color: white;
-        text-decoration: none;
-        transition: 0.3s;
-    }
-    .footer-section ul li a:hover {
-        color: #f4a261;
-    }
-    .social-icons {
-        margin-top: 10px;
-    }
-    .social-icons a {
-        margin: 0 10px;
-        display: inline-block;
-    }
-    .social-icons img {
-        width: 30px;
-        height: 30px;
-    }
-    .footer-bottom {
-        margin-top: 20px;
-        font-size: 12px;
-        border-top: 1px solid #555;
-        padding-top: 10px;
-    }
-    .featured-phone {
-        position: relative;
-        width: 80%;
-        max-width: 900px;
-        margin: 20px auto;
-        text-align: center;
-        background: #f5f5f5;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    }
-    .featured-phone img {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
-    }
-    .discount-badge {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background: red;
-        color: white;
-        padding: 10px 15px;
-        font-weight: bold;
-        border-radius: 5px;
-    }
-    .phone-info {
-        margin-top: 20px;
-    }
-    .phone-info h2 {
-        font-size: 24px;
-    }
-    .discount-price {
-        font-size: 22px;
-        font-weight: bold;
-        color: green;
-    }
-    .original-price {
-        font-size: 18px;
-        color: gray;
-    }
-    .buy-now {
-        margin-top: 10px;
-        padding: 10px 20px;
-        font-size: 18px;
-        color: white;
-        background: #ff5722;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-    .buy-now:hover {
-        background: #e64a19;
-    }
-
-
-
-
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #f4f4f4;
-}
-
+/* Table Styling */
 table {
-  width: 80%;
-  margin: 20px auto;
+  width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
+  background: #f5f7fa;
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
-td {
-  background: white;
-  padding: 15px;
-  margin: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* Bus Card Styling */
+.bus-card {
+  padding: 20px;
   text-align: center;
   vertical-align: top;
-  width: 30%;
-}
-
-td img {
-  border-radius: 8px;
   border: 1px solid #ddd;
-  padding: 5px;
-  width:300px;
-  height:300px;
+  background: #ffffff;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Hover Effects */
+.bus-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  background: #e3f2fd;
+}
+
+/* Image Styling */
+.bus-image {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Text Styling */
 h3 {
-  color: #333;
+  font-size: 22px;
+  color: #007bff;
+  margin-bottom: 10px;
 }
 
 p {
-  color: #666;
+  font-size: 16px;
+  color: #333;
+  margin: 6px 0;
 }
 
-button, .btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  margin: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+/* Price & Duration Styling */
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #28a745;
+}
+
+.duration {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff9800;
+}
+
+.time {
   font-size: 14px;
+  color: #6c757d;
 }
 
-button:hover, .btn:hover {
-  background-color: #0056b3;
+/* Button Styling */
+.book-btn {
+  display: inline-block;
+  background: #007bff;
+  color: white;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-
-
+.book-btn:hover {
+  background: #0056b3;
+  transform: scale(1.07);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
 </style>

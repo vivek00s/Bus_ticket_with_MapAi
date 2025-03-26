@@ -1,5 +1,5 @@
 class CartsController < ApplicationController
-  before_action :set_cart, only: %i[ show edit update destroy ]
+  before_action :set_cart, only: %i[show edit update destroy]
 
   # GET /carts or /carts.json
   def index
@@ -8,6 +8,9 @@ class CartsController < ApplicationController
 
   # GET /carts/1 or /carts/1.json
   def show
+    if @cart.nil?
+      redirect_to root_path, alert: "Cart not found."
+    end
   end
 
   # GET /carts/new
@@ -50,31 +53,27 @@ class CartsController < ApplicationController
   # DELETE /carts/1 or /carts/1.json
   def destroy
     @cart.destroy!
+    session[:cart_id] = nil  # Clear session cart ID after deletion
 
     respond_to do |format|
-      format.html { redirect_to carts_path, status: :see_other, notice: "Cart was successfully destroyed." }
+      format.html { redirect_to root_path, status: :see_other, notice: "Cart was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cart
-      @cart = Cart.find_by(id: session[:cart_id]) || Cart.create
+
+  # Find cart by session or create a new one
+  def set_cart
+    @cart = Cart.find_by(id: session[:cart_id])
+    unless @cart
+      @cart = Cart.create
       session[:cart_id] = @cart.id
     end
-    
+  end
 
-    def show
-      begin
-        @cart = Cart.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        logger.error "Attempt to access invalid cart #{params[:id]}"
-        redirect_to @cart, :notice => 'Invalid Cart'   
-      end
-    end
-    # Only allow a list of trusted parameters through.
-    def cart_params
-      params.fetch(:cart, {})
-    end
+  # Strong parameters (currently not allowing any additional params)
+  def cart_params
+    params.fetch(:cart, {})
+  end
 end
